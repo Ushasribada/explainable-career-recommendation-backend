@@ -582,6 +582,39 @@ def home():
 
 
 # ============================================================
+# MARKET TRENDS API
+# ============================================================
+
+@app.route("/market-trends", methods=["GET"])
+def market_trends():
+
+    try:
+
+        trends = []
+
+        for _, row in market_skills.head(15).iterrows():
+
+            trends.append({
+                "skill": str(row["Skill"]),
+                "job_count": int(row["Job_Count"]),
+                "demand_percentage": float(
+                    row["Demand_Percentage"]
+                )
+            })
+
+        return jsonify({
+            "success": True,
+            "trends": trends
+        })
+
+    except Exception as e:
+
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+# ============================================================
 # RESUME ANALYSIS API
 # ============================================================
 
